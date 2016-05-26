@@ -1,0 +1,39 @@
+# This file contains metadata for your plugin. Since 
+# version 2.0 of QGIS this is the proper way to supply 
+# information about a plugin. The old method of 
+# embedding metadata in __init__.py will 
+# is no longer supported since version 2.0.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=TomTom POI Reader
+qgisMinimumVersion=2.0
+description=This plugin reads and display TOMTOM POIs into canvas
+version=1.0
+author=Miles Lee TOMTOM ANZ PTY LTD.
+email=miles.lee@tomtom.com
+
+about=This plugin can read TOMTOM POIs information based on your requirements: 1. object (POI) names (restaruant, hospital, bar, ...); 2. Search Radius in unit meter; 3. Lat and Lon of your anchor/reference point (you can also click on Map Canvas to get your coordinates automatically). 4. Number of POIs to be showed. Please know that this Plugin is for own use purpose/evaluation but not for commercial. If you need it for commercial purpose please contact miles.lee@tomtom.com, and I will refer you to our marketing team to buy the commercial tomtom key. At the same time, the non-commercial also has limitation on number of calls and points.
+
+tracker=mileslee github
+repository=https://github.com/Mileslee/PoiReader
+# End of mandatory metadata
+
+# Recommended items:
+
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=
+
+homepage=
+category=Plugins
+icon=icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
