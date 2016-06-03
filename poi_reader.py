@@ -51,9 +51,9 @@ class PoiReader:
         self.iface = iface
         #a reference to map cavans
         self.canvas = self.iface.mapCanvas()
-        # initialize plugin directory
         # this QGIS tool emits as QgsPoint after each click on the map canvas
         self.clickTool = QgsMapToolEmitPoint(self.canvas)
+        # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
@@ -179,6 +179,7 @@ class PoiReader:
             parent=self.iface.mainWindow())
         result_canvasClicked = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
         result_sliderChanged = QObject.connect(self.dlg.horizontalSlider, SIGNAL("valueChanged(int)"), self.handleSliderMove)
+        result_pushButtonClicked = self.dlg.pushButton.clicked.connect(self.handleExtract)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -204,27 +205,6 @@ class PoiReader:
         if result:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
-            Object = self.dlg.lineEdit.text()
-            Radius = self.dlg.lineEdit_2.text()
-            Lat = self.dlg.lineEdit_3.text()
-            Lon = self.dlg.lineEdit_4.text()
-            
-            APISTRING = self.ComposeQueryString(Object, Radius, Lat, Lon)
-            
-            response = urllib.urlopen(APISTRING)
-            jsondata = json.loads(response.read())
-            geojson = self.Json2GeoJson(jsondata)
-
-            tempjsonfilename = Object + Lat + Lon + ".json"
-            tempjsonfile = open(tempjsonfilename, 'w')
-            json.dump(geojson, tempjsonfile)
-            tempjsonfile.close()
-  
-            datasource = tempjsonfilename
-            layername = Object
-            provider = "ogr"
-            vlayer = QgsVectorLayer(datasource, layername, provider)
-            QgsMapLayerRegistry.instance().addMapLayer(vlayer)
             #QMessageBox.information( self.iface.mainWindow(),"Info", str(self.dlg.horizontalSlider.value()) )
             
 
@@ -289,4 +269,27 @@ class PoiReader:
 
     def handleSliderMove(self, number_of_pois):
         self.dlg.label_6.setText(str(number_of_pois))
+
+    def handleExtract(self):
+        Object = self.dlg.lineEdit.text()
+        Radius = self.dlg.lineEdit_2.text()
+        Lat = self.dlg.lineEdit_3.text()
+        Lon = self.dlg.lineEdit_4.text()
+            
+        APISTRING = self.ComposeQueryString(Object, Radius, Lat, Lon)
+            
+        response = urllib.urlopen(APISTRING)
+        jsondata = json.loads(response.read())
+        geojson = self.Json2GeoJson(jsondata)
+
+        tempjsonfilename = Object + Lat + Lon + ".json"
+        tempjsonfile = open(tempjsonfilename, 'w')
+        json.dump(geojson, tempjsonfile)
+        tempjsonfile.close()
+  
+        datasource = tempjsonfilename
+        layername = Object
+        provider = "ogr"
+        vlayer = QgsVectorLayer(datasource, layername, provider)
+        QgsMapLayerRegistry.instance().addMapLayer(vlayer)
             
