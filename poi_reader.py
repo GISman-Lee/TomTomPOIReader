@@ -206,9 +206,9 @@ class PoiReader:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
             #QMessageBox.information( self.iface.mainWindow(),"Info", str(self.dlg.horizontalSlider.value()) )
+            pass
             
 
-            
     def ComposeQueryString(self, Object, Radius, Lat, Lon):
         ObjectUrlEncoded = urllib.urlencode({'': Object}).replace("=","")
         APISTRING = "https://api.tomtom.com/search/2/poiSearch/" + Object + ".json?key=kspvru2jqtguafeuztf9fx6s&lat=" + Lat + "&lon=" + Lon + "&radius=" + Radius + "&limit=" + str(self.dlg.horizontalSlider.value())
